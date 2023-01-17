@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from 'react'
+import React, { Fragment, useContext, useState, useEffect } from 'react'
 import CartContext from '../../../store/cart-context'
 import CartIcon from '../../Cart/CartIcon'
 import classes from './Button.module.css'
@@ -10,9 +10,29 @@ const Button = (props) => {
     return curNumber + item.amount;
   }, 0);
 
+  const [btnIsHighlighted, setbtnIsHighlighted] = useState(false)
+
+  const btnClasses = `${classes.button} ${btnIsHighlighted && classes.bump}`;
+
+  useEffect(() => {
+    if (cartContext.items.length === 0 ) {
+      return;
+    } 
+    setbtnIsHighlighted(true);
+
+    const timer = setTimeout(() => {
+      setbtnIsHighlighted(false);
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+    }
+  }, [cartContext.items])
+  
+
   return (
     <Fragment>
-      <button onClick={props.onClick} className={classes.button}>
+      <button onClick={props.onClick} className={btnClasses}>
         <span className={classes.icon}>
           <CartIcon />
         </span>
