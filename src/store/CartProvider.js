@@ -25,7 +25,6 @@ const cartReducer = (state, action) => {
       }
       updatedItems = [...state.items];
       updatedItems[existingCartItemIndex] = updatedItem;
-      console.log('items', updatedItem);
     } else {
       updatedItems = state.items.concat(action.item);
     }
@@ -33,6 +32,28 @@ const cartReducer = (state, action) => {
     return {
       items: updatedItems,
       totalAmount: updatedTotalAmount
+    }
+  }
+
+  if (action.type === 'REMOVE_ITEM') {
+    const decreaseItemIndex = state.items.findIndex(item => item.id === action.id);
+    const decreaseItem = state.items[decreaseItemIndex];
+    let updatedItems;
+    
+    if (decreaseItem.amount === 1) {
+      updatedItems = state.items.filter(item => item.id !== action.id);
+    } else {
+      const updatedItem = {
+        ...decreaseItem,
+        amount: decreaseItem.amount - 1
+      }
+      updatedItems = [...state.items];
+      updatedItems[decreaseItemIndex] = updatedItem;
+    }
+
+    return {
+      items: updatedItems,
+      totalAmount: state.totalAmount - decreaseItem.price
     }
   }
 }
