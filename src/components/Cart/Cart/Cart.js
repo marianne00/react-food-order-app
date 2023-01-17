@@ -9,17 +9,18 @@ const Cart = (props) => {
 
   const cartContext = useContext(CartContext);
 
-  const cartAddItemHandler = () => {
+  const cartAddItemHandler = (item) => {
 
   }
 
-  const cartRemoveItemHandler = () => {}
+  const cartRemoveItemHandler = (id) => {}
 
   const cartItems = cartContext.items.map((cartItem) => {
     return <CartItem 
       key={cartItem.id}
       name={cartItem.name}
       price={cartItem.price}
+      amount={cartItem.amount}
       onRemove={cartRemoveItemHandler.bind(null, cartItem.id)}
       onAdd={cartAddItemHandler.bind(null, cartItem)} />
     // return <li key={cartItem.id}>{cartItem.name}</li>
